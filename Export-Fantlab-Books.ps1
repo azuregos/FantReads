@@ -25,15 +25,15 @@
 
 .EXAMPLE
     Output all books for user User1234 to console in Table format
-    .\Export-FL-Books.ps1 -Username User1234 
+    .\Export-Fantlab-Books.ps1 -Username User1234 
 
 .EXAMPLE
     Output all books for user User1234 to console in JSON format
-    .\Export-FL-Books.ps1 -Username User1234 -OutputFormat JSON
+    .\Export-Fantlab-Books.ps1 -Username User1234 -OutputFormat JSON
 
 .EXAMPLE
     Write all books for user User1234 to export.xlm in XML format
-    .\Export-FL-Books.ps1 -Username User1234 -OutputFormat XML -OutFile ".\export.xlm" 
+    .\Export-Fantlab-Books.ps1 -Username User1234 -OutputFormat XML -OutFile ".\export.xlm" 
 
 .NOTES
     Author: Pospishnyi Oleksandr
