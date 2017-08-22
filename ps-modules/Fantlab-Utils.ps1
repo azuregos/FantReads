@@ -28,8 +28,11 @@ function Get-Books
 
     #Extract records from rows
     $books = New-Object System.Collections.ArrayList
+    $cnt = 0
     foreach ($row in $tableRows)
     {
+        $cnt++
+        Write-Progress -Activity "Reading Books from: $($URI)" -PercentComplete (($cnt / $tableRows.Length) * 100)
         $bookRecord = $row.getElementsByTagName('TD')
         $book = $null
         foreach ($record in $bookRecord)
@@ -54,6 +57,7 @@ function Get-Books
         }
     }
 
+    Write-Progress -Activity "Reading Books from: $($URI)"  -Completed
     Write-Host "$($books.Count) Books Found" -ForegroundColor White
 
     #Repeat for all other pages (books are displayed in blocks of 200)
@@ -121,6 +125,8 @@ function ReadBook
 {
     param ([string]$html)
     
+    $ProgressPreference = 'SilentlyContinue' 
+
     $book = New-Object PSCustomObject
     $strIdx = $html.IndexOf("/work") + 5
     If ($strIdx-5 -gt 0)
@@ -139,5 +145,6 @@ function ReadBook
         $book | Add-Member -type NoteProperty -name "TitleEN" -Value $json.work_name_orig
         $book | Add-Member -type NoteProperty -name "Type" -Value $json.work_type_name
     }
+    $ProgressPreference = 'Continue' 
     return $book
 }
