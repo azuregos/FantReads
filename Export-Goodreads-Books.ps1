@@ -69,9 +69,7 @@ Import-Module .\ps-modules\Goodreads-Utils.ps1 -Force
 
 $userId = Get-UserId -Username $Username -Key $Key
 
-Write-Host "Goodreads User ID: $($userId)" -ForegroundColor Green
-
-#READ https://www.goodreads.com/review/list?v=2&id=XXXX&shelf=XXXX&key=XXXXX
+$books = Get-Godreads-Books -UserId $userId -Key $Key -Shelf $Bookshelf
 
 switch ($OutputFormat) {
     'Table' { $out = $books | Format-Table }
@@ -82,7 +80,7 @@ switch ($OutputFormat) {
 }
 
 if ($OutFile) {
-    Write-Verbose "Write to: $($OutFile)"
+    Write-Verbose "Write to: $OutFile"
     $out | Out-File $OutFile
 } else {
     Write-Verbose "Result:"
