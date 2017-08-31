@@ -63,8 +63,8 @@ param (
     [string]$OutFile
 )
 
-Import-Module .\ps-modules\Goodreads-Utils.ps1 -Force
-Import-Module .\ps-modules\Key-Utils.ps1 -Force
+Import-Module $PSScriptRoot\ps-modules\Goodreads-Utils.ps1 -Force
+Import-Module $PSScriptRoot\ps-modules\Key-Utils.ps1 -Force
 
 $key = Read-Key
 

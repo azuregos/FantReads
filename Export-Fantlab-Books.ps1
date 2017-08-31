@@ -60,7 +60,7 @@ param (
     [boolean]$UseJsonAPI = $true
 )
 
-Import-Module .\ps-modules\Fantlab-Utils.ps1 -Force
+Import-Module $PSScriptRoot\ps-modules\Fantlab-Utils.ps1 -Force
 
 $books = Get-Books -URI "https://fantlab.ru/$($Username)/marks" -UseJsonAPI $UseJsonAPI
 
