@@ -11,8 +11,8 @@
 .PARAMETER Username
     A username for whom books will be exported. This is your Goodreads login.
 
-.PARAMETER Key
-    A developer key for using the Goodreads API. See https://www.goodreads.com/api/keys
+.PARAMETER UseOAuth
+    Access protected user shelves. This will ask you to add FantRead to your trusted Goodread apps.
 
 .PARAMETER Bookshelf
     Goodreads book shelf to export from. 'read' is assumed by default. 
@@ -49,10 +49,8 @@ param (
     [ValidateNotNullOrEmpty()]
     [string]$Username,
 
-    [Parameter(Mandatory=$true, Position=1, 
-    HelpMessage="Goodreads API Key")]
-    [ValidateNotNullOrEmpty()]
-    [string]$Key,
+    [Parameter(Mandatory=$false)] 
+    [switch]$UseOAuth,
 
     [Parameter(Mandatory=$false)]
     [string]$Bookshelf = "read",
@@ -66,10 +64,17 @@ param (
 )
 
 Import-Module .\ps-modules\Goodreads-Utils.ps1 -Force
+Import-Module .\ps-modules\Key-Utils.ps1 -Force
 
-$userId = Get-UserId -Username $Username -Key $Key
+$key = Read-Key
 
-$books = Get-Godreads-Books -UserId $userId -Key $Key -Shelf $Bookshelf
+if ($UseOAuth) {
+    Request-OAuth-Access -ApiKey $key.api_key -ApiSecret $key.api_secret
+} else {
+    $userId = Get-UserId -Username $Username -Key $key.api_key
+
+    $books = Get-Godreads-Books -UserId $userId -Key $key.api_key -Shelf $Bookshelf
+}
 
 switch ($OutputFormat) {
     'Table' { $out = $books | Format-Table }
