@@ -25,15 +25,15 @@
 
 .EXAMPLE
     Output all books for user user123 to console in Table format
-    .\Export-Goodreads-Books.ps1 -Username user123 -Key XXXXXXXXXX
+    .\Export-Goodreads-Books.ps1 -Username user123 
 
 .EXAMPLE
     Output all books for user user123 to console in JSON format
-    .\Export-Goodreads-Books.ps1 -Username user123 -OutputFormat JSON -Key XXXXXXXXXX
+    .\Export-Goodreads-Books.ps1 -Username user123 -OutputFormat JSON 
 
 .EXAMPLE
     Write all books for user user123 to export.xlm in XML format
-    .\Export-Goodreads-Books.ps1 -Username user123 -OutputFormat XML -OutFile ".\export.xlm" -Key XXXXXXXXXX
+    .\Export-Goodreads-Books.ps1 -Username user123 -OutputFormat XML -OutFile ".\export.xlm"
 
 .NOTES
     Author: Pospishnyi Oleksandr
@@ -69,7 +69,8 @@ Import-Module $PSScriptRoot\ps-modules\Key-Utils.ps1 -Force
 $key = Read-Key
 
 if ($UseOAuth) {
-    Request-OAuth-Access -ApiKey $key.api_key -ApiSecret $key.api_secret
+    $tokens = Request-OAuth-Access -ApiKey $key.api_key -ApiSecret $key.api_secret
+    
 } else {
     $userId = Get-UserId -Username $Username -Key $key.api_key
 
